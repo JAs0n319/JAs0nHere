@@ -4,8 +4,7 @@ services:
   backend:
     build:
       context: ./backend
-      args:
-        - JAR_FILE=build/libs/app.jar
+      dockerfile: Dockerfile
       platforms:
         - linux/amd64
     image: jas0nhere/backend:latest
