@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────
+   主题变量（Light / Dark）
+   ───────────────────────────────── */
+:root {
+    /* 基础 */
+    --c-bg: #f5f7fa;
+    --c-surface: #ffffff;
+    --c-drawer-bg: #ffffff;
+    --c-text: #0f172a;
+    --c-text-muted: #64748b;
+    --c-border: #e5eaf0;              /* 边框更轻一点 */
+    --c-hover: rgba(30, 58, 138, .06);/* 品牌色 6% 作悬浮底 */
+
+    /* 主品牌色（保持不变） */
+    --c-accent: #1e3a8a;
+    --c-accent-weak: #eef2ff;         /* 更统一的浅靛蓝底（indigo-50） */
+    --c-accent-strong: #1e3a8a;
+    --c-accent-contrast: #ffffff;
+
+    /* 组件/状态 */
+    --c-hero-sub: var(--c-text-muted);
+
+    /* 胶囊/标签：提升可读性 */
+    --c-pill-bg: #c8d7ff;
+    --c-pill-fg: #1e3a8a;
+
+    /* 按钮 */
+    --c-btn-bg: var(--c-accent);
+    --c-btn-fg: var(--c-accent-contrast);
+    --c-btn-ghost-fg: #1e3a8a;
+    --c-btn-ghost-border: #c7d2e0;
+
+    /* 卡片（正文） */
+    --c-card-bg: #ffffff;
+    --c-card-border: #d5dffd;
+
+    /* 侧边栏卡片 */
+    --c-aside-card-bg: #f6f8fe;       /* 轻薄的靛蓝雾感 */
+    --c-aside-card-border: #c8d7ff;   /* indigo-200 近似 */
+
+    /* 标签 */
+    --c-tag-bg: #edf2f7;
+    --c-tag-fg: #1e3a8a;
+
+    /* 分页状态 */
+    --c-page-active-bg: #1e3a8a;
+    --c-page-active-fg: #ffffff;
+
+    /* 品牌徽标 */
+    --c-logo-mark-bg: #1e3a8a;
+    --c-logo-mark-fg: #ffffff;
+
+    --c-backdrop: rgba(15, 18, 25, .40);
+
+    /* 可达性与阴影层级 */
+    --ring-focus: 0 0 0 3px rgba(30, 58, 138, .18);
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+    --shadow-md: 0 6px 16px rgba(15, 23, 42, .10);
+    --shadow-lg: 0 12px 30px rgba(15, 23, 42, .12);
+
+    /* 导航 hover（防止“看不见”） */
+    --c-nav-hover-bg: var(--c-accent-weak);
+    --c-nav-hover-border: var(--c-border);
+}
+
+:root.dark {
+    --c-bg: #0b0f14;
+    --c-surface: #0b0f14;
+    --c-drawer-bg: #0f172a;
+    --c-text: #e5e7eb;
+    --c-text-muted: #9aa7b8;
+    --c-border: #1e293b;
+    --c-hover: rgba(99, 102, 241, .10); /* 靛蓝提亮的雾化 hover */
+
+    /* 深色品牌：更亮一些（主按钮随之更亮） */
+    --c-accent: #5b74d6;
+    --c-accent-weak: #121a2a;
+    --c-accent-strong: #5b74d6;
+    --c-accent-contrast: #0b0f14;
+
+    --c-pill-bg: var(--c-accent-weak);
+    --c-pill-fg: var(--c-accent-strong);
+
+    --c-btn-bg: var(--c-accent);
+    --c-btn-fg: #0b0f14;
+    --c-btn-ghost-fg: #e5e7eb;
+    --c-btn-ghost-border: #334155;
+
+    --c-card-bg: #0f172a;
+    --c-card-border: #1f2a3b;
+
+    /* 侧边栏卡片（深色） */
+    --c-aside-card-bg: #0f1a2a;
+    --c-aside-card-border: #27346b;
+
+    --c-tag-bg: #1a2334;
+    --c-tag-fg: #7aa2ff;
+
+    --c-page-active-bg: #4f75ff;
+    --c-page-active-fg: #0b0f14;
+
+    --c-logo-mark-bg: #4f75ff;
+    --c-logo-mark-fg: #0b0f14;
+
+    --c-backdrop: rgba(0, 0, 0, .45);
+
+    --ring-focus: 0 0 0 3px rgba(99, 102, 241, .28);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .25);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, .45);
+
+    /* 深色下导航 hover 更清晰 */
+    --c-nav-hover-bg: rgba(99, 102, 241, .16);
+    --c-nav-hover-border: #334155;
+}
+
+/* ─────────────────────────────────
+   基础排版
+   ───────────────────────────────── */
+html, body, #app { height: 100%; }
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--c-text);
+    background: var(--c-bg);
+}
+
+/* 容器 */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* 行布局（少量横向对齐场景） */
+.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ─────────────────────────────────
+   Hero
+   ───────────────────────────────── */
+.hero { padding: 48px 0 28px; }
+.hero-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; margin: 10px 0 6px; }
+.hero-sub { color: var(--c-hero-sub); margin: 0; }
+
+/* ─────────────────────────────────
+   按钮/胶囊（统一 14px 丸角风格）
+   ───────────────────────────────── */
+.pill,
+.chip,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 999px;
+}
+
+.pill { background: var(--c-pill-bg); color: var(--c-pill-fg); }
+
+.btn {
+    background: var(--c-btn-bg);
+    color: var(--c-btn-fg);
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-sm);
+    transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease, background-color .2s ease;
+}
+.btn:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-md), var(--ring-focus); }
+
+.btn.btn--ghost {
+    background: transparent;
+    color: var(--c-btn-ghost-fg);
+    border-color: var(--c-btn-ghost-border);
+}
+.btn.btn--ghost:hover {
+    background: var(--c-hover);
+    border-color: rgba(30,58,138,.25);
+}
+
+/* ─────────────────────────────────
+   主体两栏（仅 main.grid 参与布局）
+   ───────────────────────────────── */
+.main { margin-top: 12px; }
+.main.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+@media (min-width: 1024px) {
+    .main.grid {
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 24px;
+        align-items: start;
+    }
+}
+
+/* ─────────────────────────────────
+   卡片（正文） + 浮动动效
+   ───────────────────────────────── */
+.card {
+    background: var(--c-card-bg);
+    border: 2px solid var(--c-card-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    will-change: transform, box-shadow;
+    transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card .card-inner { padding: 14px; }
+
+@media (hover:hover) {
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+.card:focus-within {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 元信息/标签 */
+.meta { color: var(--c-text-muted); font-size: 12px; }
+
+.tag {
+    margin-left: auto;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 999px;
+    background: var(--c-tag-bg);
+    color: var(--c-tag-fg);
+}
+
+/* ─────────────────────────────────
+   列表 / 侧边栏块（侧边栏专用色）
+   ───────────────────────────────── */
+.block {
+    background: var(--c-card-bg);
+    border: 2px solid var(--c-card-border);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: var(--shadow-sm);
+    will-change: transform, box-shadow;
+    transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.sidebar .block {
+    background: var(--c-aside-card-bg);
+    border-color: var(--c-aside-card-border);
+}
+@media (hover:hover) {
+    .block:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+.block:focus-within {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: flex; justify-content: space-between; padding: 6px 0; }
+.list a { color: inherit; text-decoration: none; }
+.list li:hover { background: var(--c-hover); border-radius: 8px; }
+
+/* ─────────────────────────────────
+   网格列表
+   ───────────────────────────────── */
+.post-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+@media (min-width: 768px)   { .post-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1280px)  { .post-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* 链接可点击覆盖整卡 */
+.card a { display: block; color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────
+   分页当前页
+   ───────────────────────────────── */
+[aria-current="page"] {
+    background: var(--c-page-active-bg);
+    color: var(--c-page-active-fg);
+}
+
+/* ─────────────────────────────────
+   顶部导航（修复 hover 不可见）
+   ───────────────────────────────── */
+.nav { background: var(--c-surface); }
+
+.nav .nav-link,
+.nav .chip {
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .06s ease;
+}
+
+/* 使用自定义 hover 底色和边框，替代原来的几乎“白掉”的 hover */
+@media (hover:hover) {
+    .nav .nav-link:hover,
+    .nav .chip:hover {
+        background: var(--c-nav-hover-bg);
+        border-color: var(--c-nav-hover-border);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-1px);
+    }
+}
+
+.nav .nav-link:focus-visible,
+.nav .chip:focus-visible {
+    outline: none;
+    box-shadow: var(--ring-focus);
+}
+
+/* ─────────────────────────────────
+   语义化工具类
+   ───────────────────────────────── */
+.bg-surface     { background-color: var(--c-surface); }
+.drawer-surface { background-color: var(--c-drawer-bg); }
+.border-default { border-color: var(--c-border); }
+.text-primary   { color: var(--c-text); }
+.text-muted     { color: var(--c-text-muted); }
+
+.chip-active {
+    background: var(--c-page-active-bg);
+    color: var(--c-page-active-fg);
+}
+
+.backdrop { background: var(--c-backdrop); }
+
+.brand-badge {
+    background: var(--c-logo-mark-bg);
+    color: var(--c-logo-mark-fg);
+}
+
+/* 可选：整页底色（用于独立容器时复用） */
+.page-bg { background: var(--c-bg); color: var(--c-text); }
+
+/* ─────────────────────────────────
+   尊重减少动效偏好
+   ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .nav .nav-link, .nav .chip, .card, .block, .btn {
+        transition: none;
+        transform: none;
+    }
+}

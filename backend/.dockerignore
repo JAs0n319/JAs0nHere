@@ -1,0 +1,8 @@
+.git
+.gitignore
+.gradle
+.mvn
+target
+out
+*.log
+.DS_Store
