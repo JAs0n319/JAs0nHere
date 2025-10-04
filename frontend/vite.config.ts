@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import path from 'node:path'
+import {fileURLToPath} from "node:url";
 
 // 用回调拿到 mode，便于只在开发启用 devtools
 export default defineConfig(({ mode }) => ({
@@ -15,7 +16,7 @@ export default defineConfig(({ mode }) => ({
     ],
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'src')
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
         }
     },
     // 显式声明构建产物结构，和 Nginx 配置一一对应
