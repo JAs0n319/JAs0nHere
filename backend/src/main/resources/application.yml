@@ -12,3 +12,19 @@ management:
     health:
       probes:
         enabled: true
+
+spring:
+  datasource:
+    url: "jdbc:mysql://mysql:3306/jas0nhere?allowPublicKeyRetrieval=true&serverTimezone=UTC&sslMode=PREFERRED&connectTimeout=5000&socketTimeout=30000"
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET_BASE64}
+      expires-minutes: ${JWT_EXPIRES_MINUTES}

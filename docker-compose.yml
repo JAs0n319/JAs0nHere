@@ -1,6 +1,23 @@
 version: "3.9"
 
 services:
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    container_name: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - "127.0.0.1:${MYSQL_PORT}:3306"    # 仅绑定本机；生产更安全
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./mysql/backup:/backup
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
@@ -8,20 +25,17 @@ services:
       platforms:
         - linux/amd64
     image: jas0nhere/backend:latest
+    env_file: ./.env
     container_name: backend
-    environment:
-      - JAVA_OPTS=-Xms256m -Xmx512m
-      - SPRING_PROFILES_ACTIVE=prod
-      - DB_URL=jdbc:postgresql://postgres:5432/app
-      - DB_USER=app
-      - DB_PASS=secret
-    ports:
-      - "8080:8080"
+    ports: ["127.0.0.1:8080:8080"] #TODO 生产时删掉 不对外开放API端口
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/api/ping || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   frontend:
     build:
@@ -35,3 +49,10 @@ services:
         condition: service_healthy
     ports:
       - "80:80"
+
+volumes:
+  mysql_data:
+
+networks:
+  appnet:
+    driver: bridge
